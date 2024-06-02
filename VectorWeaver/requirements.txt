@@ -1,0 +1,8 @@
+CairoSVG==2.6.0
+imageio==2.26.0
+matplotlib==3.7.1
+numpy==1.24.2
+svgelements==1.9.1
+torch==1.13.1
+tqdm==4.65.0
+transformers==4.26.1
