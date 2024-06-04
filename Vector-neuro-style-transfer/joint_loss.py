@@ -105,11 +105,11 @@ class JointLoss(torch.nn.Module):
       k_right = k(t_joint + eps)
       return sqrt(abs(k_left) + abs(k_right))
 
-    def forward(self, x_list):
+    def forward(self, x_list, eps=0.1):
       loss = 0.
       # print(len(x_list))
       for x in x_list:
         # print(x)
         # area_loss * scale
-        loss += self.joint_loss(x)
+        loss += self.joint_loss(x, eps)
       return torch.tensor(loss)

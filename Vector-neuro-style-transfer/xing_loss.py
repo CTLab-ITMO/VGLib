@@ -18,8 +18,6 @@ class XingLoss(torch.nn.Module):
         v2 = s2[1, :] - s2[0, :]
         # print(v1, v2)
         k = torch.norm(v1) * torch.norm(v2)
-        if k.item() == 0:
-            return torch.tensor(0)
         sine_theta = (v1[0] * v2[1] - v1[1] * v2[0]) / k
         return sine_theta
 
