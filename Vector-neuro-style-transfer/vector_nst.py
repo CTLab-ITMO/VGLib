@@ -281,7 +281,7 @@ class VectorNST:
 
               xing_scale = 1
               xing_score = xing(curves_points, xing_scale)
-              joint_score = joint(curves_points, eps=0.1)
+              joint_score = joint(curves_points)
             else:
               xing_score = torch.tensor(0)
               joint_score = torch.tensor(0)
