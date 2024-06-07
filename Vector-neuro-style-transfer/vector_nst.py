@@ -261,8 +261,8 @@ class VectorNST:
               curves_points = []
               for x in shapes:
                 if isinstance(x, pydiffvg.Path):
-                  # print(f'{x.points=}')
-                  # print(f'{x.num_control_points=}')
+                  print(f'{x.points=}')
+                  print(f'{x.num_control_points=}')
                   i = 0
                   for control_point in x.num_control_points:
                     if control_point == torch.tensor(2):
@@ -271,17 +271,19 @@ class VectorNST:
                         curves_points[-1] = torch.cat([
                           curves_points[-1], x.points[0, :].unsqueeze(0)
                           ])
-                      # print(f'{curves_points=}')
+                      print(f'{curves_points=}')
                       i += 3
                     elif control_point == torch.tensor(1):
                       i += 2
                     else:
                       i += 1
-              # print(f'{curves_points=}')
+              print(f'{curves_points=}')
 
               xing_scale = 1
               xing_score = xing(curves_points, xing_scale)
+              print(f'{xing_score=}')
               joint_score = joint(curves_points, eps=0.1)
+              print(f'{joint_score=}')
             else:
               xing_score = torch.tensor(0)
               joint_score = torch.tensor(0)
