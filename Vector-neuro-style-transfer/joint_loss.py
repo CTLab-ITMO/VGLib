@@ -90,8 +90,8 @@ class JointLoss(torch.nn.Module):
       def k(t):
           x_ox = 6*ap.a3*t*t - 2*ap.a2*(3*t*t*t - 2*t*t) + 3*ap.a1*(3*t*t - 4*t + 1) - 6*ap.a0*(t*t - 2*t + 1)
           y_ox = 6*ap.b3*t*t - 2*ap.b2*(3*t*t*t - 2*t*t) + 3*ap.b1*(3*t*t - 4*t + 1) - 6*ap.b0*(t*t - 2*t + 1)
-          x_oy = 2*ap.a3*t*t*t + 5*ap.a2*(3*t*t - 4*t + 1) + 2*ap.a1*(4*t*t*t - t*t + 3*t - 1) - 2*ap.a0*(t*t + 3*t + 1)
-          y_oy = 2*ap.b3*t*t*t + 5*ap.b2*(3*t*t - 4*t + 1) + 2*ap.b1*(4*t*t*t - t*t + 3*t - 1) - 2*ap.b0*(t*t + 3*t + 1)
+          x_oy = 2*ap.a3*t*t*t - 2*ap.a2*(3*t*t - 4*t + 1) + 5*ap.a1*(4*t*t*t - t*t + 3*t - 1) - 2*ap.a0*(t*t + 3*t + 1)
+          y_oy = 2*ap.b3*t*t*t - 2*ap.b2*(3*t*t - 4*t + 1) + 5*ap.b1*(4*t*t*t - t*t + 3*t - 1) - 2*ap.b0*(t*t + 3*t + 1)
           return abs(x_ox * x_oy - y_ox * y_oy) / (x_ox * y_ox + x_oy * y_oy) ** 2
 
       k_left = k(t_joint - eps)
