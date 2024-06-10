@@ -101,8 +101,8 @@ class JointLoss(torch.nn.Module):
           if norm == 0: return 0.
           return (x_ap * y_ap_ap - x_ap_ap * y_ap) / (norm * norm * norm)
 
-      k_left = k(t_joint - eps)
-      k_right = k(t_joint + eps)
+      k_left = k(max(t_joint - eps, 0))
+      k_right = k(min(t_joint + eps, 1))
       return sqrt(abs(k_left) + abs(k_right))
 
     def forward(self, x_list, eps=0.1):
