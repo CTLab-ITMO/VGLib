@@ -24,7 +24,7 @@ Install these requirements:
 Example steps of installing:
 
 * `pip install torch torchvision pillow numpy`
-* `pip install cssutils scikit-learn scikit-image svgwrite svgpathtools matplotlib`
+* `pip install cssutils scikit-learn scikit-image svgwrite svgpathtools matplotlib bezier`
 * `git clone --recursive https://github.com/IzhanVarsky/diffvg`
 * `cd diffvg && python ./setup.py install && cd ..`
 
@@ -37,25 +37,25 @@ You can also specify some other parameters: run `python test_vector_nst.py --hel
 ### JointLoss
 
 Mechanism of working [JointLoss function](joint_loss.py) is based on finding
-special points called _joint points_ which are sometimes appear in a cubic Bezier curve,
+special points that called _joint points_ which sometimes appear in a cubic Bezier curve,
 that is one of the main SVG-images' component.
 Joint point is a point in which the curve doesn't have tangent to it's surface. In such case,
 the greater the curvature of the curve in a small region of a given point,
 the less smooth the contour of the output image is.
 
-The main idea to find joint point is to look on a derivative of a vector-function
+The main idea about finding this joint point is to look on a derivative of a vector-function
 describing the curve: in such points there is an undefined derivative and local extremum located.
 
 You can find more details about JointLoss in [this file](JointLoss.pdf)
 
 Механизм работы [JointLoss](joint_loss.py) основан на принципе поиска точек стыка у кубических кривых Безье, являющихся 
-одним из основных компонентов SVG-формата изображения. Точками стыка - точки, в которых кривая
+одним из основных компонентов SVG-формата изображения. Точки стыка - точки, в которых кривая
 не имеет касательной к своей поверхности. В таком
 случае чем больше кривизна кривой в малой окрестности данной точки, 
 тем более неровным получается контур выходного изображения.
 
 Основная идея поиска точек стыка основана на анализе производной вектор-функции, описывающей кривую:
-в таких точках производная не определена, а также в них находится локальный
+в подобных точках производная не определена, а также в них находится локальный
 экстремум функции.
 
 Вы можете ознакомиться с более подробной информацией в [этом файле](JointLoss.pdf)

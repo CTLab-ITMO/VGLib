@@ -81,9 +81,7 @@ class JointLoss(torch.nn.Module):
 
 
     def joint_loss(self, points: torch.Tensor, eps=0.1):
-      # print(points)
       np_points = points.detach().numpy()
-      # print(np_points)
       ap = self.AnchorPoints(np_points)
       joint, t_joint = self.find_joint(np_points, ap)
       if t_joint == -1:
@@ -109,9 +107,6 @@ class JointLoss(torch.nn.Module):
 
     def forward(self, x_list, eps=0.1):
       loss = 0.
-      # print(len(x_list))
       for x in x_list:
-        # print(x)
-        # area_loss * scale
-        loss += self.joint_loss(x)
+        loss += self.joint_loss(x, eps)
       return torch.tensor(loss)
