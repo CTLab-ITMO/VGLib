@@ -6,7 +6,8 @@
   <img src="./examples/gen2_capt2/BOYO%20-%20Dance%20Alone.png" alt="img3" width="256"/>
 </div>
 
-**CoverGAN** is a set of tools and machine learning models designed to generate good-looking album covers based on users'
+**CoverGAN** is a set of tools and machine learning models designed to generate good-looking album covers based on
+users'
 audio tracks and emotions. Resulting covers are generated in vector graphics format (SVG).
 
 Available emotions:
@@ -55,7 +56,29 @@ The service is available on http://81.3.154.178:5001/covergan.
 
 ## Training
 
-* See [this README](./README.md) for training details.
+### CoverGAN network training
+
+* Put audio tracks (`.flac` or `.mp3` format) to default [`./audio`](./audio) folder.
+* Put original covers (`.jpg` format) to default [`./clean_covers`](./clean_covers) folder.
+* See this [help document](./docs/covergan_train_help.txt) for more details about specified options.
+* Run `./covergan_train.py` file with specified options.
+
+Example:
+`python3 ./covergan_train.py --emotions emotions.json`
+
+### Captioner network training
+
+* Put original covers (`.jpg` format) in [`./original_covers`](./original_covers) folder.
+* If the covers title and author name have been already saved to `data.json` file (which for each cover stores the
+  coordinates of the captures and their text color), it should be stored
+  at [`./checkpoint/caption_dataset/data.json`](./checkpoint/caption_dataset/data.json).
+* Or else put clean (with captures removed) covers (`.jpg` format) to [`./clean_covers`](./clean_covers)
+  folder.
+* See this [help document](./docs/captioner_train_help.txt) for more details about specified options.
+* Run `./captioner_train.py` file with specified options.
+
+Example:
+`python3 ./captioner_train.py --clean_covers ./clean_covers`
 
 ## Testing using Docker
 
@@ -157,7 +180,8 @@ The full dataset contains of:
 * Marked up emotions
 * Marked up rectangles for captioner model training
 
-The dataset can be downloaded from [here](https://drive.google.com/file/d/1_NKlS79y29_he9P3xTLd7SgYbOstCkmO/view?usp=sharing)
+The dataset can be downloaded
+from [here](https://drive.google.com/file/d/1_NKlS79y29_he9P3xTLd7SgYbOstCkmO/view?usp=sharing)
 
 ## Training using Docker with GPU
 
