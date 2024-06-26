@@ -1,79 +1,82 @@
-## Installation
+# VectorWeaver - безусловный генератор векторных изображений на основе двухуровневого трансформера.
 
-1) Install the dependencies:
+## Установка
+
+1) Установите зависимости:
 
 ```
 pip install -r requirements.txt
 ```
 
-To install cairosvg on Windows, you need to run:
+Для установки cairosvg на Windows, запустите:
 
 ```
 pip install cairosvg pipwin
 pipwin install cairocffi
 ```
 
-2) Download [the checkpoint](https://drive.google.com/file/d/1Er9KdBcsSpmi8xDS1hYAOZYurMtjZiHo/view?usp=sharing).
+2) Скачайте [веса](https://drive.google.com/file/d/1Er9KdBcsSpmi8xDS1hYAOZYurMtjZiHo/view?usp=sharing).
 
-## Generation
+## Генерация
 
-To generate one SVG image, run the module:
+Для генерации одного SVG изображения, запустите:
 
 ```
 python -m tools.generate_svg --checkpoint [checkpoint_path] --output [output_image.svg]
 ```
 
-[checkpoint_path] - path to the downloaded checkpoint
-
-To generate 9 SVG images at once, you can use the module:
+Для генерации 9 SVG изображений за один подход, запустите:
 
 ```
 python -m tools.generate_svg_3x3 --checkpoint [checkpoint_path] --output [output_image.png]
 ```
 
-## Train your own model
+Где `checkpoint_path` - путь к скаченным весам
 
-To train your model, you will need a dataset with SVG images. Run this module to convert images into a format
-appropriate for the model:
+## Обучение
+
+Для обучения модели требуется датасет с SVG изображениями.
+Запустите модуль для конвертации изображений в формат, подходящий для модели:
 
 ```
 python -m dataset.prepare_dataset --data_folder [folder with .svg files] --output_folder [folder for prepared dataset]
 ```
 
-To add augmentation to the dataset, you need to run the following module:
+Для добавления аугментации к датасету, запустите следующую команду:
 
 ```
 python -m dataset.extend_with_augmentations --data_folder [output folder from last step] --output_folder [folder for prepared dataset with augmentations]
 ```
 
-The number and list of augmentations can be changed in the source code.
+Количество и список аугментаций может быть изменен в исходном коде.
 
-You can check the correctness of the conversion using the module:
+Вы можете проверить корректность конвертации с помощью команды:
 
 ```
 python -m tools.draw_from_dataset --input [our format file] --output [resulting .svg file]
 ```
 
-To start the autoencoder training run:
+Для запуска обучения автоэнкодера запустите:
 
 ```
 python -m train.train_vae --input [prepared dataset] --checkpoint_output [resulting models]
 ```
 
-You can continue training from the checkpoint by specifying "--checkpoint_input" option.
-You can change the model parameters by overriding them in "configs/config.py".
+Вы можете продолжить обучение с контрольной точки, указав опцию `--checkpoint_input`.
 
-To check the quality of the autoencoder, use the module that applies the model to the dataset:
+Вы можете изменить параметры модели, переопределив их в `configs/config.py`.
+
+Для проверки качества автоэнкодера используйте модуль, который применяет модель к набору данных:
 
 ```
 python -m tools.apply_autoencoder --input [our format file] --checkpoint [checkpoint path] --output [resulting .svg file]
 ```
 
-To start the diffusion training run:
+Для запуска обучения диффузионной модели, запустите:
 
 ```
 python -m train.train_diffusion --input [prepared dataset] --checkpoint_input [checkpoint with VAE] --checkpoint_output [resulting models]
 ```
 
-Now you can generate images according to the instructions above!
+Теперь вы можете генерировать изображения на основе приведенной выше инструкции!
 

@@ -6,52 +6,40 @@
   <img src="images/flower.jpg" alt="img3" width="512" height="160"/>
 </div>
 
-The official implementation of VectorNST (vector neural style transfer) model in PyTorch.
+Официальная реализация модели VectorNST (векторный перенос стиля) на PyTorch.
 
-[Demo service](http://81.3.154.178:5001/vector_style_transfer).
+[Демо сервис](http://81.3.154.178:5001/vector_style_transfer).
 
-## Usage
+## Использование
 
-### Requirements
+### Требования
 
-Install these requirements:
+Установите следующие зависимости:
 
-* [PyTorch](https://pytorch.org) and Torchvision
+* [PyTorch](https://pytorch.org) и Torchvision
 * Pillow
 * NumPy
-* [DiffVG](https://github.com/IzhanVarsky/diffvg) and its requirements
+* [DiffVG](https://github.com/IzhanVarsky/diffvg) и его зависимости
 
-Example steps of installing:
+Пример установки:
 
 * `pip install torch torchvision pillow numpy`
 * `pip install cssutils scikit-learn scikit-image svgwrite svgpathtools matplotlib bezier`
 * `git clone --recursive https://github.com/IzhanVarsky/diffvg`
 * `cd diffvg && python ./setup.py install && cd ..`
 
-### Testing
+### Тестирование
 
-Run our example `python test_vector_nst.py --content_img ./images/owl.svg --style_img ./images/owl1.jpg`.
+Запустите наш пример `python test_vector_nst.py --content_img ./images/owl.svg --style_img ./images/owl1.jpg`.
 
-You can also specify some other parameters: run `python test_vector_nst.py --help` to see more info.
+Вы также можете указать другие параметры: запустите `python test_vector_nst.py --help`, чтобы увидеть больше информации.
 
 ### JointLoss
 
-Mechanism of working [JointLoss function](joint_loss.py) is based on finding
-special points that called _joint points_ which sometimes appear in a cubic Bezier curve,
-that is one of the main SVG-images' component.
-Joint point is a point in which the curve doesn't have tangent to it's surface. In such case,
-the greater the curvature of the curve in a small region of a given point,
-the less smooth the contour of the output image is.
-
-The main idea about finding this joint point is to look on a derivative of a vector-function
-describing the curve: in such points there is an undefined derivative and local extremum located.
-
-You can find more details about JointLoss in [this file](JointLoss.pdf)
-
-Механизм работы [JointLoss](joint_loss.py) основан на принципе поиска точек стыка у кубических кривых Безье, являющихся 
+Механизм работы [JointLoss](joint_loss.py) основан на принципе поиска точек стыка у кубических кривых Безье, являющихся
 одним из основных компонентов SVG-формата изображения. Точки стыка - точки, в которых кривая
 не имеет касательной к своей поверхности. В таком
-случае чем больше кривизна кривой в малой окрестности данной точки, 
+случае чем больше кривизна кривой в малой окрестности данной точки,
 тем более неровным получается контур выходного изображения.
 
 Основная идея поиска точек стыка основана на анализе производной вектор-функции, описывающей кривую:

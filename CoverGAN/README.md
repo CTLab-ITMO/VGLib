@@ -6,96 +6,96 @@
   <img src="./examples/gen2_capt2/BOYO%20-%20Dance%20Alone.png" alt="img3" width="256"/>
 </div>
 
-**CoverGAN** is a set of tools and machine learning models designed to generate good-looking album covers based on users'
-audio tracks and emotions. Resulting covers are generated in vector graphics format (SVG).
+**CoverGAN** - это набор инструментов и моделей машинного обучения, разработанных для создания красивых обложек
+музыкальных альбомов на основе аудио треков и эмоций пользователей.
+Результирующие обложки создаются в формате векторной графики (SVG).
 
-Available emotions:
+Доступные эмоции для музыкального трека:
 
-* Anger
-* Comfortable
-* Fear
-* Funny
-* Happy
-* Inspirational
-* Joy
-* Lonely
-* Nostalgic
-* Passionate
-* Quiet
-* Relaxed
-* Romantic
-* Sadness
-* Serious
-* Soulful
-* Surprise
-* Sweet
-* Wary
+* Гневный
+* Уютный
+* Страшый
+* Смешной
+* Счастливый
+* Вдохновляющий
+* Радостный
+* Одинокий
+* Ностальгичесикй
+* Страстный
+* Спокойный
+* Расслабленный
+* Романтичный
+* Печальный
+* Серьезный
+* Глубокий
+* Удивлябщий
+* Милый
+* Осторожный
 
-The service is available on http://81.3.154.178:5001/covergan.
+Сервис доступен по адресу http://81.3.154.178:5001/covergan.
 
-## Service functionality
+## Функциональность сервиса
 
-* Generation of music covers by analyzing music and emotions
-* Several GAN models
-* SVG format
-* Possibility of rasterization
-* Insertion of readable captions
-* A large number of different fonts
-* Insertion of different color filters
-* SVG editor
-* Convenient change of colors
-* Style transfer from provided image
-* Saving images in any resolution
+* Генерация музыкальных обложек путем анализа музыки и эмоций
+* Несколько моделей GAN
+* Формат SVG
+* Возможность растеризации
+* Вставка хорошо читаемых подписей
+* Большое количество разных шрифтов
+* Вставка различных цветовых фильтров
+* Редактор SVG
+* Удобное изменение цветов
+* Перенос стиля с предоставленного изображения
+* Сохранение изображений в любом разрешении
 
-## Weights
+## Веса
 
-* The pretrained weights can be downloaded
-  from [here](https://drive.google.com/file/d/1ArU0TziLBOxhphG4KBshUxPBBECErxu1/view?usp=sharing)
-* These weights should be placed into `./weights` folder
+* Предварительно обученные веса можно скачать
+  по [этой ссылке](https://drive.google.com/file/d/1ArU0TziLBOxhphG4KBshUxPBBECErxu1/view?usp=sharing)
+* Эти веса должны быть помещены в папку `./weights`
 
-## Training
+## Обучение
 
-* See [this README](./README.md) for training details.
+* См. этот README для подробностей об обучении.
 
-## Testing using Docker
+## Тестирование с использованием Docker
 
-In this service two types of generator are available:
+В этом сервисе доступны два типа генераторов:
 
-* The first one creates the covers with abstract lines
-* The second one draws closed forms.
+* Первый создает обложки с абстрактными линиями
+* Второй рисует закрытые формы
 
-It is also possible to use one of two algorithms for applying inscriptions to the cover:
+Также можно использовать один из двух алгоритмов для нанесения надписей на обложку:
 
-* The first algorithm uses the captioner model
-* The second is a deterministic algorithm which searches for a suitable location
+* Первый алгоритм использует модель для создания подписей
+* Второй - детерминированный алгоритм, который ищет наиболее подходящее место
 
-The service uses pretrained weights. See [this](README.md#Weights) section.
+Сервис использует предварительно обученные веса. См. [этот раздел](README.md#Weights).
 
-### Building
+### Сборка
 
-* Specify PyTorch version to install in [`Dockerfile`](./Dockerfile).
+* Укажите версию PyTorch для установки в файле [`Dockerfile`](./Dockerfile)..
+* Соберите образ, запустив файл `docker_build_covergan_service.sh`
 
-* Build the image running `docker_build_covergan_service.sh` file
+### Запуск
 
-### Running
+* Запустите контейнер, запустив файл `docker_run_covergan_service.sh`
 
-* Start the container running `docker_run_covergan_service.sh` file
+### Тестирование
 
-### Testing
+Перейдите по адресу http://localhost:5001 в браузере и наслаждайтесь!
 
-Go to `http://localhost:5001` in the browser and enjoy!
+## Локальное тестирование
 
-## Local testing
+### Установка зависимостей
 
-### Install dependencies
+* Установите подходящую версию PyTorch: `pip install torch torchvision torchaudio`
+* Установите [DiffVG](https://github.com/BachiLi/diffvg)
+* Установите зависимости из файла [requirements.txt](./requirements.txt)
 
-* Install suitable PyTorch version: `pip install torch torchvision torchaudio`
-* Install [DiffVG](https://github.com/BachiLi/diffvg)
-* Install dependencies from [this](./requirements.txt) file
+### Запуск
 
-### Running
-
-* Run
+* Запустите
 
 ```sh
 python3 ./eval.py \
@@ -105,66 +105,60 @@ python3 ./eval.py \
   --track_name="New Song"
 ```
 
-* The resulting `.svg` covers by default will be saved to [`./gen_samples`](./covergan/gen_samples) folder.
+* Результирующие обложки в формате `.svg` по умолчанию будут сохранены в папку `./gen_samples`.
 
-## Examples of generated covers
+## Примеры созданных обложек
 
-See [this](./examples) examples folder.
+См. папку [examples](./examples).
 
-## Contents
+## Содержание
 
-* `captions/`: a network that predicts aesthetically matching colors and positions for the captions (artist and track
-  names).
-* `colorer/`: a network that predicts palettes for music covers.
-* `docs/`: folder with instructions on how to start training or testing models.
-* `examples/`: folder with simple music tracks, their generated covers, and with examples of original and clean
-  datasets.
-* `fonts/`: folder with downloaded from [Google Fonts](https://fonts.google.com/) fonts.
-* `outer/`: the primary GAN that generates vector graphics descriptions from audio files and user-specified emotions.
-* `utils/`: parts of code implementing various independent functionality and separated for convenient reuse.
-* `weights/`: folder where the best models were saved.
-* `captioner_train.py`: an entry point to trigger the Captioner network training.
-* `covergan_train.py`: an entry point to trigger the CoverGAN training.
-* `eval.py`: an entry point to trigger the primary flow as a command line tool.
-* `service.py`: the primary code flow for album cover generation.
+* `captions`: сеть, предсказывающая эстетически сочетающиеся цвета и позиции для подписей (имена исполнителя и трека).
+* `colorer`: сеть, предсказывающая палитры для музыкальных обложек.
+* `docs`: папка с инструкциями о том, как начать обучение или тестирование моделей.
+* `examples`: папка с простыми музыкальными треками, их созданными обложками и примерами оригинальных и чистых наборов
+  данных.
+* `fonts`: папка с загруженными из Google Fonts шрифтами.
+* `outer`: основной GAN, который генерирует описания векторной графики из аудиофайлов и указанных пользователем эмоций.
+* `utils`: части кода, реализующие различные независимые функциональности и разделенные для удобного повторного
+  использования.
+* `weights`: папка, в которой сохранены лучшие модели.
+* `captioner_train.py`: точка входа для запуска обучения сети Captioner.
+* `covergan_train.py`: точка входа для запуска обучения CoverGAN.
+* `eval.py`: точка входа для запуска основного потока в виде командной строки.
+* `service.py`: основной код для генерации обложек альбомов.
 
-## Default structure of dataset folder:
+## Структура по умолчанию папки с набором данных:
 
-* `audio/`: default folder with music tracks (`.flac` or `.mp3` format) for CoverGAN training.
-* `checkpoint/`: default folder where checkpoints and other intermediate files while training CoverGAN and Captioner
-  Networks will be stored.
-* `clean_covers/`: default folder with covers on which captures were removed.
-* `original_covers/`: default folder with original covers.
-* `plots/`: the folder where the intermediate plots while training will be saved
-* `emotions.json`: file with emotion markup for train dataset.
+* `audio`: папка с музыкальными треками (в формате `.flac` или `.mp3`) для обучения CoverGAN.
+* `checkpoint`: папка, в которой будут сохранены контрольные точки и другие промежуточные файлы во время обучения
+  CoverGAN и Captioner Networks.
+* `clean_covers`: папка с обложками, с которых были удалены подписи.
+* `original_covers`: папка с оригинальными обложками.
+* `plots`: папка, в которой будут сохранены промежуточные графики во время обучения
+* `emotions.json`: файл с разметкой эмоций для обучающего набора данных.
 
-## Dependencies
+## Зависимости
 
-* The machine learning models rely on the popular [PyTorch](https://pytorch.org) framework.
-* Differentiable vector graphics rendering is provided by [diffvg](https://github.com/BachiLi/diffvg), which needs to be
-  built from source.
-* Audio feature extraction is based on [Essentia](https://github.com/MTG/essentia), prebuilt pip packages are available.
-* Other Python library dependencies include Pillow, Matplotlib, SciPy, and [Kornia](https://kornia.github.io).
+* Модели машинного обучения основаны на популярном фреймворке [PyTorch](https://pytorch.org).
+* Визуализация векторной графики с использованием [diffvg](https://github.com/BachiLi/diffvg), который должен быть
+  собран из исходного кода.
+* Извлечение аудиофункций основано на [Essentia](https://github.com/MTG/essentia), предварительно собранные пакеты pip
+  доступны.
+* Другие зависимости Python включают Pillow, Matplotlib, SciPy и [Kornia](https://kornia.github.io).
 
-## Dataset
+## Набор данных
 
-The full dataset contains of:
+Полный набор данных включает:
 
-* Audio tracks
-* Original covers
-* Cleaned covers
-* Fonts
-* Marked up emotions
-* Marked up rectangles for captioner model training
+* Аудио треки
+* Оригинальные обложки
+* Очищенные обложки
+* Шрифты
+* Размеченные эмоции
+* Размеченные прямоугольники для обучения модели подписей
 
-The dataset can be downloaded from [here](https://drive.google.com/file/d/1_NKlS79y29_he9P3xTLd7SgYbOstCkmO/view?usp=sharing)
-
-## Training using Docker with GPU
-
-* Build image running `docker_build.sh`
-* See [these](/docs) docs for more details about specified options while training networks.
-* Specify training command in `covergan_training_command.sh`
-* Start container running `docker_run.sh`
+Набор данных можно скачать по [этой ссылке](https://drive.google.com/file/d/1_NKlS79y29_he9P3xTLd7SgYbOstCkmO/view?usp
 
 ## License
 
