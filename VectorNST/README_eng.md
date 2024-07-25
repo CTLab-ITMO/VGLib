@@ -24,7 +24,7 @@ Install these requirements:
 Example steps of installing:
 
 * `pip install torch torchvision pillow numpy`
-* `pip install cssutils scikit-learn scikit-image svgwrite svgpathtools matplotlib bezier`
+* `pip install cssutils scikit-learn scikit-image svgwrite svgpathtools matplotlib`
 * `git clone --recursive https://github.com/IzhanVarsky/diffvg`
 * `cd diffvg && python ./setup.py install && cd ..`
 
