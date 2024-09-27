@@ -1,27 +1,19 @@
 from math import sqrt
 
-import bezier
 import numpy as np
 import torch
 
 class JointLoss(torch.nn.Module):
 
-    def get_coordinates(self, t, points):
-        curve = bezier.Curve(points, degree=3)
-        return curve.evaluate(t)
-
-
-    def is_local_max(self, t, curve):
+    def is_local_max(self, t, ap):
         eps = 0.1
-        return curve.evaluate(t)[1][0] > curve.evaluate(t + eps)[1][0] and curve.evaluate(t)[1][0] > \
-            curve.evaluate(t-eps)[1][0]
+        return ap.evaluate_curve(t)[1] > ap.evaluate_curve(t + eps)[1] and ap.evaluate_curve(t)[1] > \
+            ap.evaluate_curve(t - eps)[1]
 
-
-    def is_local_min(self, t, curve):
+    def is_local_min(self, t, ap):
         eps = 0.1
-        return curve.evaluate(t)[1][0] < curve.evaluate(t + eps)[1][0] and curve.evaluate(t)[1][0] < \
-            curve.evaluate(t - eps)[1][0]
-
+        return ap.evaluate_curve(t)[1] < ap.evaluate_curve(t + eps)[1] and ap.evaluate_curve(t)[1] < \
+            ap.evaluate_curve(t - eps)[1]
 
     class AnchorPoints:
         a0, b0 = 0, 0
@@ -43,15 +35,12 @@ class JointLoss(torch.nn.Module):
             ap.a3, ap.b3 = self.b3, self.a3
             return ap
 
-        def generate_curve(self):
-            return bezier.Curve(np.asfortranarray([
-                [self.a0, self.a1, self.a2, self.a3],
-                [self.b0, self.b1, self.b2, self.b3]
-            ]), degree=3)
-
+        def evaluate_curve(self, t):
+            x = self.a3*t*t*t - 3*self.a2*(t*t*t - t*t) + 3*self.a1*(t*t*t - 2*t*t + t) - self.a0*(t-1)*(t-1)*(t-1)
+            y = self.b3*t*t*t - 3*self.b2*(t*t*t - t*t) + 3*self.b1*(t*t*t - 2*t*t + t) - self.b0*(t-1)*(t-1)*(t-1)
+            return [x, y]
 
     def find_joint(self, points, anchor_points):
-        curve = anchor_points.generate_curve()
         a0 = anchor_points.a0
         a1 = anchor_points.a1
         a2 = anchor_points.a2
@@ -72,11 +61,11 @@ class JointLoss(torch.nn.Module):
         t1 = (-1 * k + sqrt(d1)) / a
         t2 = (-1 * k - sqrt(d1)) / a
         if 1 >= t1 >= 0:
-            if self.is_local_max(t1, curve) or self.is_local_min(t1, curve):
-                return curve.evaluate(t1), t1
+            if self.is_local_max(t1, anchor_points) or self.is_local_min(t1, anchor_points):
+                return anchor_points.evaluate_curve(t1), t1
         if 1 >= t2 >= 0:
-            if self.is_local_max(t2, curve) or self.is_local_min(t2, curve):
-                return curve.evaluate(t2), t2
+            if self.is_local_max(t2, anchor_points) or self.is_local_min(t2, anchor_points):
+                return anchor_points.evaluate_curve(t2), t2
         return np.ndarray(shape=(0, 0)), -1
 
 
