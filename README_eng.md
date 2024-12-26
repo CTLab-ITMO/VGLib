@@ -13,3 +13,7 @@ The library includes the following methods:
 ## CoverGAN - a generator of vector music album covers based on a user's track and its emotion.
 
 ## VectorWeaver - an unconditional generator of vector images based on a two-stage transformer.
+
+---
+
+This research is financially supported by the Foundation for National Technology Initiative's Projects Support as a part of the roadmap implementation for the development of the high-tech field of Artificial Intelligence for the period up to 2030 (agreement 70-2021-00187)
